@@ -1,12 +1,12 @@
-#spring:
-#  application:
-#    name: store
-#  datasource:
-#    url: jdbc:mysql://localhost:3306/store_api?createDatabaseIfNotExist=true
-#    username: root
-#    password: MyPassword!
-#  jpa:
-#    show-sql: true
+spring:
+  application:
+    name: store
+  datasource:
+    url: jdbc:mysql://localhost:3306/store_api?createDatabaseIfNotExist=true
+    username: root
+    password: R00tpwd!
+  jpa:
+    show-sql: true
 
 #  spring.application.name=demo
 server:
@@ -14,30 +14,37 @@ server:
 #  servlet:
 #      context-path: /simple-crud
 
-spring:
-  application:
-    name: simpleapi
-  #    datasource:
-  #      url: jdbc:mysql://localhost:3306/store?createDatabaseIfNotExist=true
-  #      username: root
-  #      password: MyPassword!
-  #      jpa:
-  #        show-sql: true
-  datasource:
-    driver-class-name: org.h2.Driver
-    #    url: jdbc:h2:mem:simpleapidb
-    #    url: jdbc:h2:file:~/databaseH2/simplecruddb
-    url: jdbc:h2:file:~/databaseH2/simpleapidb;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
-    username: sa
-    password:
+#spring:
+#  application:
+#    name: store
+#
+#  datasource:
+#    driver-class-name: org.h2.Driver
+#    #    url: jdbc:h2:mem:simpleapidb
+#    #    url: jdbc:h2:file:~/databaseH2/simplecruddb
+#    url: jdbc:h2:file:~/databaseH2/simpleapidb;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
+#    username: sa
+#    password:
   #
 
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-  jpa:
-    show-sql: true
-    defer-datasource-initialization: true
-    hibernate:
-      ddl-auto: update
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2-console
+#  jpa:
+#    show-sql: true
+#    defer-datasource-initialization: true
+#    hibernate:
+#      ddl-auto: update
+
+#stripe:
+#  apiUrl: https://api.stripe.com
+#  timeout: 1000
+#  enable: true
+#  supported-currencies: USD,EUR,GBP
+#payment-gateway: paypal
+#mail:
+#  host: smtp.gmail.com
+#  port: 5761
+#  username:
+#  password:
