@@ -1,6 +1,7 @@
 package com.codewithmosh.store.controller;
 
 import com.codewithmosh.store.dto.RegisterUserRequest;
+import com.codewithmosh.store.dto.UpdateUserRequest;
 import com.codewithmosh.store.dto.UserDto;
 import com.codewithmosh.store.entities.User;
 import com.codewithmosh.store.mapper.UserMapper;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,6 +57,19 @@ public class UserController {
         var savedUser = userRepository.save(user);
         var uri = uriBuilder.path("/users/{id}").buildAndExpand(savedUser.getId()).toUri();
         return ResponseEntity.created(uri).body(userMapper.toDto(savedUser));
+    }
+
+    @PutMapping
+    public ResponseEntity<UserDto> updateUser(
+            @PathVariable Long id,
+            @RequestBody UpdateUserRequest request){
+        var user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        userMapper.updateEntity(request, user);
+        userRepository.save(user);
+        return ResponseEntity.ok(userMapper.toDto(user));
     }
 
 }
