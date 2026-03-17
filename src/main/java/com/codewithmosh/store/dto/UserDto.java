@@ -9,18 +9,18 @@ public class UserDto {
     private Long id;
     private String name;
     private String email;
-//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-//    private LocalDateTime createdAt;
+
 
     public UserDto(Long id, String name, String email, LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
         this.email = email;
-//        this.createdAt = createdAt;
+
     }
 
     public UserDto() {
     }
+
 
 //    public LocalDateTime getCreatedAt() {
 //        return createdAt;
