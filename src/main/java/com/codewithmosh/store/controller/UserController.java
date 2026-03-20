@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/users")
@@ -27,8 +28,11 @@ public class UserController {
 
     @GetMapping({"/","","/all"})
     public Iterable<UserDto> getAllUsers(
-            @RequestParam String sort
+            @RequestParam(required = false, defaultValue = "", name = "sort") String sort
     ) {
+        if(!Set.of("name","email").contains(sort)) {
+            sort = "name";
+        }
       return   userRepository.findAll(Sort.by(sort))
               .stream()
 //              .map(user -> new UserDto(user.getId(), user.getName(), user.getEmail()))
