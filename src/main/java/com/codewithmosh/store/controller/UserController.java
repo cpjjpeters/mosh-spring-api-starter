@@ -6,14 +6,9 @@ import com.codewithmosh.store.dto.UserDto;
 import com.codewithmosh.store.entities.User;
 import com.codewithmosh.store.mapper.UserMapper;
 import com.codewithmosh.store.repositories.UserRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
@@ -31,8 +26,10 @@ public class UserController {
     }
 
     @GetMapping({"/","","/all"})
-    public Iterable<UserDto> getAllUsers() {
-      return   userRepository.findAll()
+    public Iterable<UserDto> getAllUsers(
+            @RequestParam String sort
+    ) {
+      return   userRepository.findAll(Sort.by(sort))
               .stream()
 //              .map(user -> new UserDto(user.getId(), user.getName(), user.getEmail()))
               .map(userMapper::toDto)
