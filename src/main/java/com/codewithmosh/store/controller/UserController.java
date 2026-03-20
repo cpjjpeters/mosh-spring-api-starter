@@ -60,7 +60,7 @@ public class UserController {
         return ResponseEntity.created(uri).body(userMapper.toDto(savedUser));
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(
             @PathVariable Long id,
             @RequestBody UpdateUserRequest request){
