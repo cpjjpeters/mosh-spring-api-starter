@@ -4,10 +4,7 @@ import com.codewithmosh.store.mapper.ProductMapper;
 import com.codewithmosh.store.repositories.CategoryRepository;
 import com.codewithmosh.store.repositories.ProductRepository;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,5 +34,37 @@ public class ProductController {
         }
         return ResponseEntity.ok(productMapper.toDto(product));
 
+    }
+
+    @PostMapping
+    public ResponseEntity<ProductDto> createProduct(
+            @RequestBody ProductDto productDto)
+    {
+        var product = productMapper.toEntity(productDto);
+        productRepository.save(product);
+        return ResponseEntity.ok(productMapper.toDto(product));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductDto> updateProduct(
+            @PathVariable Long id,
+            @RequestBody ProductDto productDto
+    ){
+        var product = productRepository.findById(id).orElse(null);
+        if(product == null){
+            return ResponseEntity.notFound().build();
+        }
+        productMapper.update(productDto,product);
+        productRepository.save(product);
+        return ResponseEntity.ok(productMapper.toDto(product));
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
+        var product = productRepository.findById(id).orElse(null);
+        if(product == null){
+            return ResponseEntity.notFound().build();
+        }
+        productRepository.delete(product);
+        return ResponseEntity.noContent().build();
     }
 }
