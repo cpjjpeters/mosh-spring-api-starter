@@ -4,19 +4,15 @@ import com.codewithmosh.store.dto.ChangePasswordRequest;
 import com.codewithmosh.store.dto.RegisterUserRequest;
 import com.codewithmosh.store.dto.UpdateUserRequest;
 import com.codewithmosh.store.dto.UserDto;
-import com.codewithmosh.store.entities.User;
 import com.codewithmosh.store.mapper.UserMapper;
 import com.codewithmosh.store.repositories.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -57,9 +53,14 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> createUser(
+    public ResponseEntity<?> registerUser(
             @Valid @RequestBody RegisterUserRequest request,
             UriComponentsBuilder uriBuilder) {
+        if(userRepository.existsByEmail(request.getEmail())){
+            return ResponseEntity.badRequest().body(
+                    Map.of("email", "Email is already registered.")
+            );
+        }
         var user = userMapper.toEntity(request);
         var savedUser = userRepository.save(user);
         var uri = uriBuilder.path("/users/{id}").buildAndExpand(savedUser.getId()).toUri();
