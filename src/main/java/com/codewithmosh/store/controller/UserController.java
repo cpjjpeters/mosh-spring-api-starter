@@ -68,9 +68,19 @@ public class UserController {
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
-        userMapper.updateEntity(request, user);
+        userMapper.update(request, user);
         userRepository.save(user);
         return ResponseEntity.ok(userMapper.toDto(user));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id){
+        var user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        userRepository.delete(user);
+        return  ResponseEntity.noContent().build();
     }
 
 }
